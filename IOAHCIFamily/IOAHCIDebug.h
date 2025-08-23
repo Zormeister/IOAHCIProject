@@ -37,6 +37,8 @@ extern UInt32 gIOAHCIDebugFlags;
 
 enum {
     kIOAHCIDebugController = (1 << 0),
+    kIOAHCIDebugPort = (1 << 1),
+    kIOAHCIDebugDevice = (1 << 2),
 };
 
 #endif /* _IOAHCIDEBUG_H_ */

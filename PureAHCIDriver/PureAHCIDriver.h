@@ -31,18 +31,41 @@
 #ifndef PureAHCIDriver_h
 #define PureAHCIDriver_h
 
+#include <IOKit/acpi/IOACPIPlatformDevice.h>
 #include <IOKit/ahci/IOAHCIController.h>
+#include <IOKit/pci/IOPCIDevice.h>
 
 /*!
  * @class PureAHCIDriver
  *
  * @abstract This class provides basic PCI AHCI support
+ *
+ * @discussion
+ * Controllers with quirks should be handled by subclassing PureAHCIDriver and PureAHCIPort and adding the IDs
+ * to an IOKit personality with a higher probe score than PureAHCIDriver.
  */
 
 class PureAHCIDriver : public IOAHCIController {
     OSDeclareDefaultStructors(PureAHCIDriver);
     
+    virtual IOService *probe(IOService *provider, SInt32 *score) override;
     
+    virtual bool start(IOService *provider) override;
+    
+    virtual IOAHCIPort *createPort(UInt32 number) override;
+    
+    virtual UInt32 readRegister(UInt32 reg) override;
+    
+    virtual void writeRegister(UInt32 reg, UInt32 value) override;
+    
+protected:
+    IOMemoryMap *_memoryMap;
+    IOMemoryDescriptor *_memoryDescriptor;
+    IOPCIDevice *_pciDevice;
+    IOACPIPlatformDevice *_acpiDevice;
+    UInt32 _memoryOffset;
+    bool _memoryInPCIConfig;
+    UInt8 _sataCapabilityOffset;
 };
 
 #endif /* PureAHCIDriver_h */

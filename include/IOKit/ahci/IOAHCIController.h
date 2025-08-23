@@ -34,17 +34,20 @@
 #include <IOKit/IOService.h>
 #include <IOKit/ahci/IOAHCITypes.h>
 
+class IOAHCIPort;
+
 class IOAHCIController : public IOService {
     OSDeclareAbstractStructors(IOAHCIController);
 
     virtual bool start(IOService *provider) override;
 
+protected:
     /*!
-     * @function createPorts
+     * @function createPort
      *
      * @abstract Creates IOAHCIPort subclassed objects and places them in the IORegistry.
      */
-    virtual void createPorts(void) = 0;
+    virtual IOAHCIPort *createPort(UInt32 number) = 0;
     
     /*!
      * @function readRegister
@@ -61,7 +64,8 @@ class IOAHCIController : public IOService {
     virtual void writeRegister(UInt32 reg, UInt32 value) = 0;
 
 protected:
-    IOMemoryMap *_memoryMap;
+    OSArray *_portArray;
+    IOSimpleLock *_registerLock;
 };
 
 #endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */

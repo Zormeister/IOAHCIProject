@@ -33,6 +33,10 @@
 
 #include <IOKit/IOTypes.h>
 
+#ifndef sub_iokit_ahci
+#define sub_iokit_ahci err_sub(12)
+#endif
+
 /*!
  * @const kIOAHCIMaximumPorts
  * The maximum number of ports an AHCI controller can have.
@@ -41,18 +45,34 @@ enum {
     kIOAHCIMaximumPorts = 32,
 };
 
+/*!
+ * @const kIOAHCIPCICapabilityID
+ * The PCI capability ID of the SATA capability
+ */
+enum {
+    kIOAHCIPCICapabilityID = 0x12,
+};
+
 // 2.4 - Serial ATA Capability
 struct IOAHCIPCICapabilityRegister {
     // SATACR0
-    UInt8 capabilityID;
-    UInt16 nextCapability;
-    UInt8 minorRev:4;
-    UInt8 majorRev:4;
-    UInt16 reserved1;
-    // SATACR1
-    UInt8 barLocation:4;
-    UInt32 offset:20;
-    UInt8 reserved2;
+    union {
+        struct {
+            UInt8 capabilityID;
+            UInt16 nextCapability;
+            UInt8 minorRev:4;
+            UInt8 majorRev:4;
+            UInt16 reserved1;
+            // SATACR1
+            UInt8 barLocation:4;
+            UInt32 offset:20;
+            UInt8 reserved2;
+        } bits;
+        struct {
+            UInt32 SATACR0;
+            UInt32 SATACR1;
+        } regs;
+    };
 };
 
 // 2.4.2 - SATACR1
