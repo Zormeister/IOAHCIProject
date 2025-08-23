@@ -31,17 +31,19 @@
 #include <IOKit/ahci/IOAHCIController.h>
 
 const OSSymbol *gIOAHCIPortTypeKey;
+const OSSymbol *gIOAHCIHostCapabilitiesKey;
 
 class IOAHCIControllerGlobals {
 public:
     IOAHCIControllerGlobals();
     ~IOAHCIControllerGlobals();
-}
+};
 
 static IOAHCIControllerGlobals IOAHCIControllerGlobals;
 
 IOAHCIControllerGlobals::IOAHCIControllerGlobals()
 {
+    gIOAHCIHostCapabilitiesKey = OSSymbol::withCString("AHCI-CAP");
     gIOAHCIPortTypeKey = OSSymbol::withCString("AHCI Port Type");
 }
 
@@ -61,6 +63,9 @@ OSDefineMetaClassAndAbstractStructors(IOAHCIController, IOService);
 
 bool IOAHCIController::start(IOService *provider)
 {
+    UInt32 caps;
+    OSNumber *number;
+    
     if (super::start(provider) == false) {
         AHCI_DEBUG("Superclass start failed!\n");
         return false;
@@ -68,7 +73,7 @@ bool IOAHCIController::start(IOService *provider)
     
     this->_registerLock = IOSimpleLockAlloc();
 
-    UInt32 caps = this->readRegister(kIOAHCIRegHostCapabilities);
+    caps = this->readRegister(kIOAHCIRegHostCapabilities);
 
     /* for debugging purposes */
     AHCI_DEBUG("AHCI Capabilities:\n");
@@ -77,6 +82,12 @@ bool IOAHCIController::start(IOService *provider)
     AHCI_DEBUG_VA("\t Supports Enclosure Management  : %d", ((caps & kIOAHCIHostCapabilitiesEnclosureManagement) != 0));
     AHCI_DEBUG_VA("\t Supports Completion Coalescing : %d", ((caps & kIOAHCIHostCapabilitiesCmdCompletionCoalescing) != 0));
     AHCI_DEBUG_VA("\t Number of Command Slots        : %d", ((caps & kIOAHCIHostCapabilitiesNumCommandSlotsMask) >> 8));
+
+    number = OSNumber::withNumber(caps, 32);
+
+    this->setProperty(gIOAHCIHostCapabilitiesKey, number);
+    
+    OSSafeReleaseNULL(number);
 
     /* Enumerate the available ports here */
 #if 0

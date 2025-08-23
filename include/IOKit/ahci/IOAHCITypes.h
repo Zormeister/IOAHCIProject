@@ -132,4 +132,30 @@ enum {
     kIOAHCIHostCapabilitiesSupports64BitAddressing = 0x80000000,
 };
 
+// 3.1.2 - Global HBA Control
+enum {
+    kIOAHCIHostControlHBAReset     = 0x00000001,
+    kIOAHCIHostControlIRQEnable    = 0x00000002,
+    kIOAHCIHostControlMSISingleMsg = 0x00000004,
+    kIOAHCIHostControlAHCIEnable   = 0x80000000,
+};
+
+// 3.1.5 - AHCI Version
+enum {
+    kIOAHCIVersion0_95 = 0x00000905,
+    kIOAHCIVersion1_0  = 0x00010000,
+    kIOAHCIVersion1_1  = 0x00010100,
+    kIOAHCIVersion1_2  = 0x00010200,
+    kIOAHCIVersion1_3  = 0x00010300,
+    kIOAHCIVersion1_31 = 0x00010301,
+};
+
+// 3.1.6 - Command Completion Coalescing Control
+enum {
+    kIOAHCICCCControlEnable = 0x00000001,
+    kIOAHCICCCControlInterruptMask = 0x000000F8,
+    kIOAHCICCCControlCompletionsMask = 0x0000FF00,
+    kIOAHCICCCControlTimeoutValueMask = 0xFFFF0000,
+};
+
 #endif /* _IOKIT_AHCI_IOAHCITYPES_H_ */

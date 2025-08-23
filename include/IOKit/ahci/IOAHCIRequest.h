@@ -28,26 +28,9 @@
  * @LICENSE_HEADER_END@
  */
 
-#ifndef _IOKIT_AHCI_IOAHCIPORT_H_
-#define _IOKIT_AHCI_IOAHCIPORT_H_
+#ifndef _IOKIT_AHCI_IOAHCIREQUEST_H_
+#define _IOKIT_AHCI_IOAHCIREQUEST_H_
 
-#include <IOKit/IOCommandPool.h>
-#include <IOKit/ahci/IOAHCIController.h>
+#include <IOKit/ahci/IOAHCITypes.h>
 
-class IOAHCIPort : public IOService {
-    OSDeclareAbstractStructors(IOAHCIPort);
-    
-    virtual bool initWithControllerAndPortNumber(IOAHCIController *controller, UInt32 portNumber);
-    
-    
-    
-public:
-    UInt32 getPortNumber(void);
-    
-protected:
-    UInt32 _portNumber;
-    IOAHCIController *_controller;
-    IOCommandPool *_commandPool;
-};
-
-#endif /* _IOKIT_AHCI_IOAHCIPORT_H_ */
+#endif /* _IOKIT_AHCI_IOAHCIREQUEST_H_ */

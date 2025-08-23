@@ -65,7 +65,7 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
     }
     
     if (!this->_memoryInPCIConfig) {
-        this->_memoryMap = this->_pciDevice->mapDeviceMemoryWithRegister(bar);
+        this->_memoryMap = this->_pciDevice->mapDeviceMemoryWithRegister(bar, kIOMapInhibitCache);
         this->_memoryDescriptor = this->_memoryMap->getMemoryDescriptor();
     }
     

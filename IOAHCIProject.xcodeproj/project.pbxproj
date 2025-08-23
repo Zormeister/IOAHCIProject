@@ -14,6 +14,7 @@
 		F0A3EE2D2E588E4B00349FD5 /* PureAHCIDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0A3EE2B2E588E4B00349FD5 /* PureAHCIDriver.cpp */; };
 		F0A3EE2F2E593C9100349FD5 /* IOAHCIController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0A3EE2E2E593C9100349FD5 /* IOAHCIController.cpp */; };
 		F0A3EE312E593D5400349FD5 /* IOAHCIDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE302E593D4F00349FD5 /* IOAHCIDebug.h */; };
+		F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE322E59CD5100349FD5 /* IOAHCIRequest.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F0A3EE2B2E588E4B00349FD5 /* PureAHCIDriver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PureAHCIDriver.cpp; sourceTree = "<group>"; };
 		F0A3EE2E2E593C9100349FD5 /* IOAHCIController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IOAHCIController.cpp; sourceTree = "<group>"; };
 		F0A3EE302E593D4F00349FD5 /* IOAHCIDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOAHCIDebug.h; sourceTree = "<group>"; };
+		F0A3EE322E59CD5100349FD5 /* IOAHCIRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOAHCIRequest.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,9 +98,10 @@
 		F0A3EE082E57D18000349FD5 /* ahci */ = {
 			isa = PBXGroup;
 			children = (
-				F0A3EE0B2E57D19C00349FD5 /* IOAHCITypes.h */,
 				F0A3EE0D2E58704900349FD5 /* IOAHCIController.h */,
 				F0A3EE112E5872D400349FD5 /* IOAHCIPort.h */,
+				F0A3EE322E59CD5100349FD5 /* IOAHCIRequest.h */,
+				F0A3EE0B2E57D19C00349FD5 /* IOAHCITypes.h */,
 			);
 			path = ahci;
 			sourceTree = "<group>";
@@ -122,6 +125,7 @@
 			files = (
 				F0A3EE122E5872D400349FD5 /* IOAHCIPort.h in Headers */,
 				F0A3EE0E2E58704900349FD5 /* IOAHCIController.h in Headers */,
+				F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */,
 				F0A3EE0C2E57D19C00349FD5 /* IOAHCITypes.h in Headers */,
 				F0A3EE312E593D5400349FD5 /* IOAHCIDebug.h in Headers */,
 			);
