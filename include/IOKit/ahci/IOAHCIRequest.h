@@ -33,4 +33,8 @@
 
 #include <IOKit/ahci/IOAHCITypes.h>
 
+class IOAHCIRequest : public IOCommand {
+    OSDeclareDefaultStructors(IOAHCIRequest);
+};
+
 #endif /* _IOKIT_AHCI_IOAHCIREQUEST_H_ */

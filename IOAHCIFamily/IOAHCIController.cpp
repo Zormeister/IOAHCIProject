@@ -64,14 +64,25 @@ OSDefineMetaClassAndAbstractStructors(IOAHCIController, IOService);
 bool IOAHCIController::start(IOService *provider)
 {
     UInt32 caps;
+    UInt32 cntl;
     OSNumber *number;
-    
+
     if (super::start(provider) == false) {
         AHCI_DEBUG("Superclass start failed!\n");
         return false;
     }
-    
+
     this->_registerLock = IOSimpleLockAlloc();
+
+    cntl = this->readRegister(kIOAHCIRegHostControl);
+
+    if (!(cntl & kIOAHCIHostControlAHCIEnable)) {
+        AHCI_DEBUG("Enabling AHCI mode!\n");
+
+        cntl |= kIOAHCIHostControlAHCIEnable;
+
+        this->writeRegister(kIOAHCIRegHostControl, cntl);
+    }
 
     caps = this->readRegister(kIOAHCIRegHostCapabilities);
 

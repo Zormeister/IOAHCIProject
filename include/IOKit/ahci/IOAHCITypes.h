@@ -86,6 +86,10 @@ enum {
     kIOAHCICapabilityBARLocationPCIConfig = 0xF,
 };
 
+#pragma mark - AHCI specification registers and bit fields
+
+#pragma mark - 0x0000 - 0x0100
+
 // 3 - HBA Memory Registers
 enum {
     kIOAHCIPortControlBase = 0x100,
@@ -156,6 +160,74 @@ enum {
     kIOAHCICCCControlInterruptMask = 0x000000F8,
     kIOAHCICCCControlCompletionsMask = 0x0000FF00,
     kIOAHCICCCControlTimeoutValueMask = 0xFFFF0000,
+};
+
+// 3.1.8 - Enclosure Management Location
+enum {
+    kIOAHCIEMLocationBufferSizeMask = 0x0000FFFF,
+    kIOAHCIEMLocationOffsetMask = 0xFFFF0000,
+};
+
+// 3.1.9 - Enclosure Management Control
+enum {
+    kIOAHCIEMControlMessageRecieved = 0x00000001,
+    kIOAHCIEMControlTransmitMessage = 0x00000100,
+    kIOAHCIEMControlReset = 0x00000200,
+    kIOAHCIEMControlSupportsLEDMessages = 0x00010000,
+    kIOAHCIEMControlSupportsSAFTEMessages = 0x00020000,
+    kIOAHCIEMControlSupportsSES2Messages = 0x00040000,
+    kIOAHCIEMControlSupportsSGPIOMessages = 0x00080000,
+    kIOAHCIEMControlSingleMessageBuffer = 0x001000000,
+    kIOAHCIEMControlTransmitOnly = 0x002000000,
+    kIOAHCIEMControlLEDHardwareDriven = 0x004000000,
+    kIOAHCIEMControlPortMultiplierSupport = 0x008000000,
+};
+
+// 3.1.10 -  HBA Capabilities Extended
+enum {
+    kIOAHCIExtentedHostCapsBIOSHandoff = 0x00000001,
+    kIOAHCIExtentedHostCapsNVMHCIPresent = 0x00000002,
+    kIOAHCIExtentedHostCapsAutoPartialToSlumber = 0x00000004,
+    kIOAHCIExtentedHostCapsSupportsDevSleep = 0x00000008,
+    kIOAHCIExtentedHostCapsSupportsAggressiveDevSleep = 0x00000010,
+    kIOAHCIExtentedHostCapsDevSleepFromSlumberOnly = 0x00000020,
+};
+
+// 3.1.11 BIOS/OS Handoff Control and Status
+enum {
+    kIOAHCIHandoffControlBIOSOwned = 0x00000001,
+    kIOAHCIHandoffControlOSOwned = 0x00000002,
+    kIOAHCIHandoffControlSMIOnChange = 0x00000004,
+    kIOAHCIHandoffControlOwnershipChange = 0x00000008,
+    kIOAHCIHandoffControlBIOSBusy = 0x00000010,
+};
+
+
+#pragma mark - Per port registers
+
+// 3.3 - Port Registers (one set per port)
+enum {
+    kIOAHCIPortRegCommandListAddress = 0x00,
+    kIOAHCIPortRegCommandListAddressHigh = 0x04,
+    kIOAHCIPortRegFISAddress = 0x08,
+    kIOAHCIPortRegFISAddressHigh = 0x0C,
+    kIOAHCIPortRegIRQStatus = 0x10,
+    kIOAHCIPortRegIRQEnable = 0x14,
+    kIOAHCIPortRegCommandAndStatus = 0x18,
+    kIOAHCIPortRegTaskFileData = 0x20,
+    kIOAHCIPortRegSignature = 0x24,
+    kIOAHCIPortRegSATAStatus = 0x28,
+    kIOAHCIPortRegSATAControl = 0x2C,
+    kIOAHCIPortRegSATAError = 0x30,
+    kIOAHCIPortRegSATAActive = 0x34,
+    kIOAHCIPortRegCommandIssue = 0x38,
+    kIOAHCIPortRegSATANotification = 0x3C,
+    kIOAHCIPortRegFISBaseSwitchingControl = 0x40,
+    kIOAHCIPortRegDeviceSleep = 0x44,
+};
+
+enum {
+    kIOAHCIPortIRQStatusDHRS = 0x00000001,
 };
 
 #endif /* _IOKIT_AHCI_IOAHCITYPES_H_ */

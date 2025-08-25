@@ -43,6 +43,8 @@ class IOAHCIPort : public IOService {
     
 public:
     UInt32 getPortNumber(void);
+
+    
     
 protected:
     UInt32 _portNumber;
