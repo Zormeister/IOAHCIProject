@@ -28,50 +28,48 @@
  * @LICENSE_HEADER_END@
  */
 
-#ifndef _IOKIT_AHCI_IOAHCICONTROLLER_H_
-#define _IOKIT_AHCI_IOAHCICONTROLLER_H_
+#ifndef _IOKIT_SATA_IOSERIALATATYPES_H_
+#define _IOKIT_SATA_IOSERIALATATYPES_H_
 
-#include <IOKit/IOService.h>
-#include <IOKit/ahci/IOAHCITypes.h>
+#include <IOKit/IOTypes.h>
 
-class IOAHCIPort;
-
-class IOAHCIController : public IOService {
-    OSDeclareAbstractStructors(IOAHCIController);
-
-    virtual bool start(IOService *provider) override;
-
-protected:
+enum {
     /*!
-     * @function createPort
-     *
-     * @abstract Creates IOAHCIPort subclassed objects and places them in the IORegistry.
+     * @const kIOSerialATAFISTypeHost2Device
+     * The FIS for transferring the register block from the host to the SATA device.
      */
-    virtual IOAHCIPort *createPort(UInt32 number) = 0;
-
-    /*!
-     * @function readRegister
-     *
-     * @abstract Reads the AHCI register space
-     */
-    virtual UInt32 readRegister(UInt32 reg) = 0;
-
-    /*!
-     * @function writeRegister
-     *
-     * @abstract Writes to the AHCI register space
-     */
-    virtual void writeRegister(UInt32 reg, UInt32 value) = 0;
+    kIOSerialATAFISTypeHost2Device = 0x27,
     
     /*!
-     * @function reset
-     * Resets the HBA, simple in practice.
+     * @const kIOSerialATAFISTypeDevice2Host
+     * The FIS for transferring the register block from the device to the host.
      */
-    virtual void reset(void);
+    kIOSerialATAFISTypeDevice2Host = 0x34,
 
-protected:
-    OSArray *_portArray;
-    IOSimpleLock *_registerLock;
+    /*!
+     * @const kIOSerialATAFISTypeDMAActivate
+     * The FIS that signals the host to begin a DMA transfer.
+     */
+    kIOSerialATAFISTypeDMAActivate = 0x39,
+    
+    /*!
+     * @const kIOSerialATAFISTypeDMAActivate
+     * The FIS that establishes a DMA transfer operation, this FIS can come from the host or device.
+     */
+    kIOSerialATAFISTypeDMASetup = 0x41,
+    
+    /*!
+     * @const kIOSerialATAFISTypeData
+     * The FIS that carries a payload of data, the maximum size is 2048 32-bit integers of data.
+     */
+    kIOSerialATAFISTypeData = 0x46,
+    
+    kIOSerialATAFISTypeBISTActivate = 0x58,
+    
+    kIOSerialATAFISTypePIOSetup = 0x5F,
+    
+    kIOSerialATAFISTypeSetDeviceBits = 0xA1,
 };
 
-#endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */
+
+#endif /* _IOKIT_SATA_IOSERIALATATYPES_H_ */

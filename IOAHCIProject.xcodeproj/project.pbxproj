@@ -7,17 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F0140DB42E62615300349FD5 /* IOAHCIPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0140DB32E62615300349FD5 /* IOAHCIPort.cpp */; };
+		F0140DD02E626BF600349FD5 /* IOSerialATATypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F0140DB62E62640600349FD5 /* IOSerialATATypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F0140DD22E626C1A00349FD5 /* IOSerialATAFIS.h in Headers */ = {isa = PBXBuildFile; fileRef = F0140DD12E626C1A00349FD5 /* IOSerialATAFIS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F0A3EE0C2E57D19C00349FD5 /* IOAHCITypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE0B2E57D19C00349FD5 /* IOAHCITypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F0A3EE0E2E58704900349FD5 /* IOAHCIController.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE0D2E58704900349FD5 /* IOAHCIController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F0A3EE122E5872D400349FD5 /* IOAHCIPort.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE112E5872D400349FD5 /* IOAHCIPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F0A3EE2C2E588E4B00349FD5 /* PureAHCIDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE2A2E588E4B00349FD5 /* PureAHCIDriver.h */; };
 		F0A3EE2D2E588E4B00349FD5 /* PureAHCIDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0A3EE2B2E588E4B00349FD5 /* PureAHCIDriver.cpp */; };
 		F0A3EE2F2E593C9100349FD5 /* IOAHCIController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0A3EE2E2E593C9100349FD5 /* IOAHCIController.cpp */; };
-		F0A3EE312E593D5400349FD5 /* IOAHCIDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE302E593D4F00349FD5 /* IOAHCIDebug.h */; };
-		F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE322E59CD5100349FD5 /* IOAHCIRequest.h */; };
+		F0A3EE312E593D5400349FD5 /* IOAHCIDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE302E593D4F00349FD5 /* IOAHCIDebug.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F0A3EE322E59CD5100349FD5 /* IOAHCIRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F0140DB32E62615300349FD5 /* IOAHCIPort.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IOAHCIPort.cpp; sourceTree = "<group>"; };
+		F0140DB62E62640600349FD5 /* IOSerialATATypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSerialATATypes.h; sourceTree = "<group>"; };
+		F0140DBE2E626BC100349FD5 /* IOSerialATAFamily.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSerialATAFamily.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0140DC92E626BC500349FD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0140DD12E626C1A00349FD5 /* IOSerialATAFIS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSerialATAFIS.h; sourceTree = "<group>"; };
 		F0A3EDF32E57D15900349FD5 /* IOAHCIFamily.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOAHCIFamily.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0A3EDFF2E57D15F00349FD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F0A3EE0B2E57D19C00349FD5 /* IOAHCITypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOAHCITypes.h; sourceTree = "<group>"; };
@@ -33,6 +41,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F0140DBB2E626BC100349FD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A3EDF02E57D15900349FD5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,9 +65,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F0140DB52E6263EA00349FD5 /* sata */ = {
+			isa = PBXGroup;
+			children = (
+				F0140DB62E62640600349FD5 /* IOSerialATATypes.h */,
+				F0140DD12E626C1A00349FD5 /* IOSerialATAFIS.h */,
+			);
+			path = sata;
+			sourceTree = "<group>";
+		};
+		F0140DCC2E626BC500349FD5 /* IOSerialATAFamily */ = {
+			isa = PBXGroup;
+			children = (
+				F0140DC92E626BC500349FD5 /* Info.plist */,
+			);
+			path = IOSerialATAFamily;
+			sourceTree = "<group>";
+		};
 		F0A3EDE72E57D10A00349FD5 = {
 			isa = PBXGroup;
 			children = (
+				F0140DCC2E626BC500349FD5 /* IOSerialATAFamily */,
 				F0A3EE062E57D16300349FD5 /* include */,
 				F0A3EE022E57D15F00349FD5 /* IOAHCIFamily */,
 				F0A3EE262E58747600349FD5 /* PureAHCIDriver */,
@@ -65,6 +98,7 @@
 			children = (
 				F0A3EDF32E57D15900349FD5 /* IOAHCIFamily.kext */,
 				F0A3EE182E58747000349FD5 /* PureAHCIDriver.kext */,
+				F0140DBE2E626BC100349FD5 /* IOSerialATAFamily.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,6 +109,7 @@
 				F0A3EE302E593D4F00349FD5 /* IOAHCIDebug.h */,
 				F0A3EDFF2E57D15F00349FD5 /* Info.plist */,
 				F0A3EE2E2E593C9100349FD5 /* IOAHCIController.cpp */,
+				F0140DB32E62615300349FD5 /* IOAHCIPort.cpp */,
 			);
 			path = IOAHCIFamily;
 			sourceTree = "<group>";
@@ -91,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A3EE082E57D18000349FD5 /* ahci */,
+				F0140DB52E6263EA00349FD5 /* sata */,
 			);
 			path = IOKit;
 			sourceTree = "<group>";
@@ -119,13 +155,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F0140DB92E626BC100349FD5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0140DD22E626C1A00349FD5 /* IOSerialATAFIS.h in Headers */,
+				F0140DD02E626BF600349FD5 /* IOSerialATATypes.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A3EDEE2E57D15900349FD5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */,
 				F0A3EE122E5872D400349FD5 /* IOAHCIPort.h in Headers */,
 				F0A3EE0E2E58704900349FD5 /* IOAHCIController.h in Headers */,
-				F0A3EE332E59CD5100349FD5 /* IOAHCIRequest.h in Headers */,
 				F0A3EE0C2E57D19C00349FD5 /* IOAHCITypes.h in Headers */,
 				F0A3EE312E593D5400349FD5 /* IOAHCIDebug.h in Headers */,
 			);
@@ -142,6 +187,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F0140DBD2E626BC100349FD5 /* IOSerialATAFamily */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0140DC62E626BC100349FD5 /* Build configuration list for PBXNativeTarget "IOSerialATAFamily" */;
+			buildPhases = (
+				F0140DB92E626BC100349FD5 /* Headers */,
+				F0140DBA2E626BC100349FD5 /* Sources */,
+				F0140DBB2E626BC100349FD5 /* Frameworks */,
+				F0140DBC2E626BC100349FD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IOSerialATAFamily;
+			packageProductDependencies = (
+			);
+			productName = IOSerialATAFamily;
+			productReference = F0140DBE2E626BC100349FD5 /* IOSerialATAFamily.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
 		F0A3EDF22E57D15900349FD5 /* IOAHCIFamily */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F0A3EDFE2E57D15900349FD5 /* Build configuration list for PBXNativeTarget "IOAHCIFamily" */;
@@ -190,6 +255,10 @@
 			attributes = {
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					F0140DBD2E626BC100349FD5 = {
+						CreatedOnToolsVersion = 16.4;
+						ProvisioningStyle = Automatic;
+					};
 					F0A3EDF22E57D15900349FD5 = {
 						CreatedOnToolsVersion = 16.4;
 						ProvisioningStyle = Automatic;
@@ -215,11 +284,19 @@
 			targets = (
 				F0A3EDF22E57D15900349FD5 /* IOAHCIFamily */,
 				F0A3EE172E58747000349FD5 /* PureAHCIDriver */,
+				F0140DBD2E626BC100349FD5 /* IOSerialATAFamily */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F0140DBC2E626BC100349FD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A3EDF12E57D15900349FD5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -237,11 +314,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F0140DBA2E626BC100349FD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0A3EDEF2E57D15900349FD5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F0A3EE2F2E593C9100349FD5 /* IOAHCIController.cpp in Sources */,
+				F0140DB42E62615300349FD5 /* IOAHCIPort.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +341,151 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F0140DC72E626BC100349FD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IOSerialATAFamily/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				KEXT_FAMILY_NAME = IOKit/sata;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				MODULE_NAME = org.puredarwin.iokit.IOSerialATAFamily;
+				MODULE_VERSION = 1.0.0d1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.puredarwin.iokit.IOSerialATAFamily;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		F0140DC82E626BC100349FD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IOSerialATAFamily/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				KEXT_FAMILY_NAME = IOKit/sata;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				MODULE_NAME = org.puredarwin.iokit.IOSerialATAFamily;
+				MODULE_VERSION = 1.0.0d1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.puredarwin.iokit.IOSerialATAFamily;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
 		F0A3EDEC2E57D10A00349FD5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -561,6 +791,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F0140DC62E626BC100349FD5 /* Build configuration list for PBXNativeTarget "IOSerialATAFamily" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0140DC72E626BC100349FD5 /* Debug */,
+				F0140DC82E626BC100349FD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F0A3EDEB2E57D10A00349FD5 /* Build configuration list for PBXProject "IOAHCIProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

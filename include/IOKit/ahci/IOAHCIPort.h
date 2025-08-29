@@ -33,21 +33,22 @@
 
 #include <IOKit/IOCommandPool.h>
 #include <IOKit/ahci/IOAHCIController.h>
+#include <IOKit/ahci/IOAHCIRequest.h>
 
 class IOAHCIPort : public IOService {
     OSDeclareAbstractStructors(IOAHCIPort);
     
     virtual bool initWithControllerAndPortNumber(IOAHCIController *controller, UInt32 portNumber);
-    
-    
+
+    virtual IOAHCIRequest *createRequest(void);
     
 public:
     UInt32 getPortNumber(void);
 
-    
-    
+
 protected:
     UInt32 _portNumber;
+    UInt32 _portMemoryBase;
     IOAHCIController *_controller;
     IOCommandPool *_commandPool;
 };

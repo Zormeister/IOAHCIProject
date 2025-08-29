@@ -28,50 +28,15 @@
  * @LICENSE_HEADER_END@
  */
 
-#ifndef _IOKIT_AHCI_IOAHCICONTROLLER_H_
-#define _IOKIT_AHCI_IOAHCICONTROLLER_H_
+#ifndef _IOKIT_SATA_IOSERIALATAFIS_H_
+#define _IOKIT_SATA_IOSERIALATAFIS_H_
 
-#include <IOKit/IOService.h>
-#include <IOKit/ahci/IOAHCITypes.h>
+#include <IOKit/sata/IOSerialATATypes.h>
 
-class IOAHCIPort;
-
-class IOAHCIController : public IOService {
-    OSDeclareAbstractStructors(IOAHCIController);
-
-    virtual bool start(IOService *provider) override;
-
-protected:
-    /*!
-     * @function createPort
-     *
-     * @abstract Creates IOAHCIPort subclassed objects and places them in the IORegistry.
-     */
-    virtual IOAHCIPort *createPort(UInt32 number) = 0;
-
-    /*!
-     * @function readRegister
-     *
-     * @abstract Reads the AHCI register space
-     */
-    virtual UInt32 readRegister(UInt32 reg) = 0;
-
-    /*!
-     * @function writeRegister
-     *
-     * @abstract Writes to the AHCI register space
-     */
-    virtual void writeRegister(UInt32 reg, UInt32 value) = 0;
+class IOSerialATAFIS : public OSObject {
+    OSDeclareDefaultStructors(IOSerialATAFIS);
     
-    /*!
-     * @function reset
-     * Resets the HBA, simple in practice.
-     */
-    virtual void reset(void);
-
-protected:
-    OSArray *_portArray;
-    IOSimpleLock *_registerLock;
+    static IOSerialATAFIS *createFIS(UInt32 type);
 };
 
-#endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */
+#endif /* _IOKIT_SATA_IOSERIALATAFIS_H_ */

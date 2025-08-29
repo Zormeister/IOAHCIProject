@@ -47,7 +47,7 @@
 
 class PureAHCIDriver : public IOAHCIController {
     OSDeclareDefaultStructors(PureAHCIDriver);
-    
+
     virtual IOService *probe(IOService *provider, SInt32 *score) override;
     
     virtual bool start(IOService *provider) override;
@@ -62,7 +62,7 @@ protected:
     IOMemoryMap *_memoryMap;
     IOMemoryDescriptor *_memoryDescriptor;
     IOPCIDevice *_pciDevice;
-    IOACPIPlatformDevice *_acpiDevice;
+    IOACPIPlatformDevice *_acpiDevice; /* ACPI power management. I need to integrate this driver with IOPM at some point. */
     UInt32 _memoryOffset;
     bool _memoryInPCIConfig;
     UInt8 _sataCapabilityOffset;
