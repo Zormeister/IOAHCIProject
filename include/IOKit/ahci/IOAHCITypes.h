@@ -32,10 +32,14 @@
 #define _IOKIT_AHCI_IOAHCITYPES_H_
 
 #include <IOKit/IOTypes.h>
+#include <libkern/c++/OSSymbol.h>
 
 #ifndef sub_iokit_ahci
 #define sub_iokit_ahci err_sub(12)
 #endif
+
+extern const OSSymbol *gIOAHCIPortTypeKey;
+extern const OSSymbol *gIOAHCIHostCapabilitiesKey;
 
 /*!
  * @const kIOAHCIMaximumPorts
@@ -45,6 +49,10 @@ enum {
     kIOAHCIMaximumPorts = 32,
 };
 
+enum {
+    kIOAHCIPortMaxCommandListEntries = 32,
+};
+
 /*!
  * @const kIOAHCIPCICapabilityID
  * The PCI capability ID of the SATA capability
@@ -52,6 +60,12 @@ enum {
 enum {
     kIOAHCIPCICapabilityID = 0x12,
 };
+
+#define kIOAHCICommandListAddressMask64 0xFFFFFFFFFFFFFC00
+#define kIOAHCICommandListAddressMask32 0x00000000FFFFFC00
+
+#define kIOAHCICommandTableAddressMask64 0xFFFFFFFFFFFFFF00
+#define kIOAHCICommandTableAddressMask32 0x00000000FFFFFF00
 
 // 2.4 - Serial ATA Capability
 struct IOAHCIPCICapabilityRegister {

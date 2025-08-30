@@ -32,11 +32,22 @@
 #define _IOKIT_SATA_IOSERIALATAFIS_H_
 
 #include <IOKit/sata/IOSerialATATypes.h>
+#include <libkern/c++/OSObject.h>
 
+/* Abstract class, call createWithType for an actual FIS. */
 class IOSerialATAFIS : public OSObject {
     OSDeclareDefaultStructors(IOSerialATAFIS);
     
-    static IOSerialATAFIS *createFIS(UInt32 type);
+public:
+    static IOSerialATAFIS *createWithType(UInt32 type);
+
+    /* Setters and Getters */
+
+    virtual void setCommand(UInt32 command);
+    virtual UInt32 getCommand(void);
+
+private:
+    UInt32 _type;
 };
 
 #endif /* _IOKIT_SATA_IOSERIALATAFIS_H_ */

@@ -28,52 +28,40 @@
  * @LICENSE_HEADER_END@
  */
 
-#ifndef _IOKIT_AHCI_IOAHCICONTROLLER_H_
-#define _IOKIT_AHCI_IOAHCICONTROLLER_H_
-
-#include <IOKit/IOService.h>
 #include <IOKit/ahci/IOAHCITypes.h>
+#include <pexpert/pexpert.h>
+#include "IOAHCIFamilyDebug.h"
 
-class IOAHCIPort;
+const OSSymbol *gIOAHCIPortTypeKey;
+const OSSymbol *gIOAHCIHostCapabilitiesKey;
 
-class IOAHCIController : public IOService {
-    OSDeclareAbstractStructors(IOAHCIController);
+/* The default whilst this is in development */
+#define kIOAHCIDefaultDebugFlags \
+        kIOAHCIDebugPrint | \
+        kIOAHCIDebugController | \
+        kIOAHCIDebugPort | \
+        kIOAHCIDebugDevice
 
-    friend class IOAHCIPort;
+UInt32 gIOAHCIDebugFlags = kIOAHCIDefaultDebugFlags;
 
-    virtual bool start(IOService *provider) override;
-
-protected:
-    /*!
-     * @function createPort
-     *
-     * @abstract Creates IOAHCIPort subclassed objects and places them in the IORegistry.
-     */
-    virtual IOAHCIPort *createPort(UInt32 number) = 0;
-
-    /*!
-     * @function readRegister
-     *
-     * @abstract Reads the AHCI register space
-     */
-    virtual UInt32 readRegister(UInt32 reg) = 0;
-
-    /*!
-     * @function writeRegister
-     *
-     * @abstract Writes to the AHCI register space
-     */
-    virtual void writeRegister(UInt32 reg, UInt32 value) = 0;
-    
-    /*!
-     * @function reset
-     * Resets the HBA, simple in practice.
-     */
-    virtual void reset(void);
-
-protected:
-    OSArray *fPortArray;
-    IOSimpleLock *fRegisterLock;
+class IOAHCIFamilyGlobals {
+public:
+    IOAHCIFamilyGlobals();
+    ~IOAHCIFamilyGlobals();
 };
 
-#endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */
+static IOAHCIFamilyGlobals IOAHCIFamilyGlobals;
+
+IOAHCIFamilyGlobals::IOAHCIFamilyGlobals()
+{
+    gIOAHCIHostCapabilitiesKey = OSSymbol::withCString("AHCI-CAP");
+    gIOAHCIPortTypeKey = OSSymbol::withCString("AHCI Port Type");
+
+    PE_parse_boot_argn("ahci_dbg", &gIOAHCIDebugFlags, sizeof(UInt32));
+}
+
+IOAHCIFamilyGlobals::~IOAHCIFamilyGlobals()
+{
+    OSSafeReleaseNULL(gIOAHCIPortTypeKey);
+    OSSafeReleaseNULL(gIOAHCIHostCapabilitiesKey);
+}

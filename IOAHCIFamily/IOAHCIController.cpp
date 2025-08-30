@@ -28,34 +28,12 @@
  * @LICENSE_HEADER_END@
  */
 
+#include "IOAHCIFamilyDebug.h"
 #include <IOKit/ahci/IOAHCIController.h>
 
-const OSSymbol *gIOAHCIPortTypeKey;
-const OSSymbol *gIOAHCIHostCapabilitiesKey;
-
-class IOAHCIControllerGlobals {
-public:
-    IOAHCIControllerGlobals();
-    ~IOAHCIControllerGlobals();
-};
-
-static IOAHCIControllerGlobals IOAHCIControllerGlobals;
-
-IOAHCIControllerGlobals::IOAHCIControllerGlobals()
-{
-    gIOAHCIHostCapabilitiesKey = OSSymbol::withCString("AHCI-CAP");
-    gIOAHCIPortTypeKey = OSSymbol::withCString("AHCI Port Type");
-}
-
-IOAHCIControllerGlobals::~IOAHCIControllerGlobals()
-{
-    OSSafeReleaseNULL(gIOAHCIPortTypeKey);
-}
-
-
-
-#define AHCI_DEBUG(fmt) kprintf("[AHCI][IOAHCIController]: %s: " fmt, __PRETTY_FUNCTION__)
-#define AHCI_DEBUG_VA(fmt, ...) kprintf("[AHCI][IOAHCIController]: %s: " fmt, __PRETTY_FUNCTION__, __VA_ARGS__)
+#define TRACE_BEGIN(func, a, b, c, d) IOAHCITraceBegin(Controller, func, a, b, c, d)
+#define TRACE_END(func, a, b, c, d) IOAHCITraceEnd(Controller, func, a, b, c, d)
+#define DBG(fmt, args...) IOAHCIDebugLog(Controller, fmt, ##args)
 
 OSDefineMetaClassAndAbstractStructors(IOAHCIController, IOService);
 
@@ -66,18 +44,19 @@ bool IOAHCIController::start(IOService *provider)
     UInt32 caps;
     UInt32 cntl;
     OSNumber *number;
+    TRACE_BEGIN(Start, provider, this->getMetaClass()->getInstanceCount(), 0, 0);
 
     if (super::start(provider) == false) {
-        AHCI_DEBUG("Superclass start failed!\n");
+        DBG("Superclass start failed!");
         return false;
     }
 
-    this->_registerLock = IOSimpleLockAlloc();
+    this->fRegisterLock = IOSimpleLockAlloc();
 
     cntl = this->readRegister(kIOAHCIRegHostControl);
 
     if (!(cntl & kIOAHCIHostControlAHCIEnable)) {
-        AHCI_DEBUG("Enabling AHCI mode!\n");
+        DBG("Enabling AHCI mode!");
 
         cntl |= kIOAHCIHostControlAHCIEnable;
 
@@ -87,12 +66,12 @@ bool IOAHCIController::start(IOService *provider)
     caps = this->readRegister(kIOAHCIRegHostCapabilities);
 
     /* for debugging purposes */
-    AHCI_DEBUG("AHCI Capabilities:\n");
-    AHCI_DEBUG_VA("\t Supported Ports                : %d", caps & kIOAHCIHostCapabilitiesPortCountMask);
-    AHCI_DEBUG_VA("\t Supports External SATA         : %d", ((caps & kIOAHCIHostCapabilitiesExternalSATA) != 0));
-    AHCI_DEBUG_VA("\t Supports Enclosure Management  : %d", ((caps & kIOAHCIHostCapabilitiesEnclosureManagement) != 0));
-    AHCI_DEBUG_VA("\t Supports Completion Coalescing : %d", ((caps & kIOAHCIHostCapabilitiesCmdCompletionCoalescing) != 0));
-    AHCI_DEBUG_VA("\t Number of Command Slots        : %d", ((caps & kIOAHCIHostCapabilitiesNumCommandSlotsMask) >> 8));
+    DBG("AHCI Capabilities:");
+    DBG("\t Supported Ports                : %d", caps & kIOAHCIHostCapabilitiesPortCountMask);
+    DBG("\t Supports External SATA         : %d", ((caps & kIOAHCIHostCapabilitiesExternalSATA) != 0));
+    DBG("\t Supports Enclosure Management  : %d", ((caps & kIOAHCIHostCapabilitiesEnclosureManagement) != 0));
+    DBG("\t Supports Completion Coalescing : %d", ((caps & kIOAHCIHostCapabilitiesCmdCompletionCoalescing) != 0));
+    DBG("\t Number of Command Slots        : %d", ((caps & kIOAHCIHostCapabilitiesNumCommandSlotsMask) >> 8));
 
     number = OSNumber::withNumber(caps, 32);
 
@@ -105,12 +84,13 @@ bool IOAHCIController::start(IOService *provider)
     UInt32 ports = this->readRegister(kIOAHCIRegPortsImplemented);
     for (int i = 0; i < kIOAHCIMaximumPorts; i++) {
         if ((ports >> i) & 0x1) {
-            AHCI_DEBUG_VA("Creating port %d", i);
+            DBG("Creating port %d", i);
             auto port = this->createPort(i);
         }
     }
 #endif
     /* ^ disabled the above for now - until Port infrastructure is developed. */
 
+    TRACE_END(Start, provider, this->getMetaClass()->getInstanceCount(), 0, 0);
     return true;
 }

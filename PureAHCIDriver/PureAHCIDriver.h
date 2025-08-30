@@ -59,13 +59,13 @@ class PureAHCIDriver : public IOAHCIController {
     virtual void writeRegister(UInt32 reg, UInt32 value) override;
     
 protected:
-    IOMemoryMap *_memoryMap;
-    IOMemoryDescriptor *_memoryDescriptor;
-    IOPCIDevice *_pciDevice;
-    IOACPIPlatformDevice *_acpiDevice; /* ACPI power management. I need to integrate this driver with IOPM at some point. */
-    UInt32 _memoryOffset;
-    bool _memoryInPCIConfig;
-    UInt8 _sataCapabilityOffset;
+    IOMemoryMap *fMMIOMap;
+    IOMemoryDescriptor *fMMIODescriptor;
+    IOPCIDevice *fPCIDevice;
+    IOACPIPlatformDevice *fACPIDevice; /* ACPI power management. I need to integrate this driver with IOPM at some point. */
+    UInt32 fMemoryOffset;
+    bool fMemoryInPCIConfig;
+    UInt8 fSATACapabilityOffset;
 };
 
 #endif /* PureAHCIDriver_h */

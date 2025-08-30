@@ -42,15 +42,27 @@ class IOAHCIPort : public IOService {
 
     virtual IOAHCIRequest *createRequest(void);
     
+protected:
+    void initCapabilities(void);
+    
+    virtual UInt32 readRegister(UInt32 reg);
+    virtual void writeRegister(UInt32 reg, UInt32 value);
+    
 public:
     UInt32 getPortNumber(void);
 
 
 protected:
-    UInt32 _portNumber;
-    UInt32 _portMemoryBase;
-    IOAHCIController *_controller;
-    IOCommandPool *_commandPool;
+    UInt32 fPortNumber;
+    UInt32 fPortMemoryBase;
+    bool fIs64bit;
+    bool fUsesNCQ;
+    IOAHCIController *fController;
+    IOCommandPool *fCommandPool;
+    IOBufferMemoryDescriptor *fCommandListBuffer;
+    IOBufferMemoryDescriptor *fIncomingFISBuffer;
+    mach_vm_address_t fCommandListAddrMask;
+    mach_vm_address_t fCommandTableAddrMask;
 };
 
 #endif /* _IOKIT_AHCI_IOAHCIPORT_H_ */

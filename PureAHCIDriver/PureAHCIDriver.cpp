@@ -44,29 +44,29 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
         return NULL;
     }
     
-    this->_memoryOffset = 0;
+    fMemoryOffset = 0;
     
-    this->_pciDevice = OSDynamicCast(IOPCIDevice, provider);
-    
-    this->_pciDevice->findPCICapability(kIOAHCIPCICapabilityID, &capabilityOffset);
+    fPCIDevice = OSDynamicCast(IOPCIDevice, provider);
+
+    fPCIDevice->findPCICapability(kIOAHCIPCICapabilityID, &capabilityOffset);
 
     if (capabilityOffset) {
-        capabilityReg.regs.SATACR0 = this->_pciDevice->configRead32(capabilityOffset);
-        capabilityReg.regs.SATACR1 = this->_pciDevice->configRead32(capabilityOffset + 0x4);
+        capabilityReg.regs.SATACR0 = this->fPCIDevice->configRead32(capabilityOffset);
+        capabilityReg.regs.SATACR1 = this->fPCIDevice->configRead32(capabilityOffset + 0x4);
 
         /* ZORMEISTER: Why does the AHCI specification even allow this? */
         if (capabilityReg.bits.barLocation == kIOAHCICapabilityBARLocationPCIConfig) {
-            this->_memoryInPCIConfig = true;
+            fMemoryInPCIConfig = true;
         }
         
         bar = (capabilityReg.bits.barLocation * 4);
         
-        this->_memoryOffset = capabilityReg.bits.offset * 4;
+        fMemoryOffset = capabilityReg.bits.offset * 4;
     }
     
-    if (!this->_memoryInPCIConfig) {
-        this->_memoryMap = this->_pciDevice->mapDeviceMemoryWithRegister(bar, kIOMapInhibitCache);
-        this->_memoryDescriptor = this->_memoryMap->getMemoryDescriptor();
+    if (!fMemoryInPCIConfig) {
+        fMMIOMap = fPCIDevice->mapDeviceMemoryWithRegister(bar, kIOMapInhibitCache);
+        fMMIODescriptor = fMMIOMap->getMemoryDescriptor();
     }
     
     return this;
@@ -85,32 +85,32 @@ UInt32 PureAHCIDriver::readRegister(UInt32 reg)
 {
     UInt32 value;
     
-    IOSimpleLockLock(this->_registerLock);
+    IOSimpleLockLock(this->fRegisterLock);
     
-    if (this->_memoryInPCIConfig) {
+    if (fMemoryInPCIConfig) {
         /* "Index-Data Pair is implemented in Dwords directly following SATACR1 in the PCI configuration space" */
-        value = this->_pciDevice->configRead32(((this->_sataCapabilityOffset + 4) + _memoryOffset + reg));
+        value = this->fPCIDevice->configRead32(((this->fSATACapabilityOffset + 4) + fMemoryOffset + reg));
     } else {
-        this->_memoryDescriptor->readBytes((this->_memoryOffset + reg), &value, sizeof(UInt32));
+        this->fMMIODescriptor->readBytes((this->fMemoryOffset + reg), &value, sizeof(UInt32));
     }
     
-    IOSimpleLockUnlock(this->_registerLock);
+    IOSimpleLockUnlock(this->fRegisterLock);
     
     return value;
 }
 
 void PureAHCIDriver::writeRegister(UInt32 reg, UInt32 value)
 {
-    IOSimpleLockLock(this->_registerLock);
+    IOSimpleLockLock(this->fRegisterLock);
     
-    if (this->_memoryInPCIConfig) {
+    if (fMemoryInPCIConfig) {
         /* "Index-Data Pair is implemented in Dwords directly following SATACR1 in the PCI configuration space" */
-        this->_pciDevice->configWrite32(((this->_sataCapabilityOffset + 4) + _memoryOffset + reg), value);
+        this->fPCIDevice->configWrite32(((this->fSATACapabilityOffset + 4) + fMemoryOffset + reg), value);
     } else {
-        this->_memoryDescriptor->writeBytes((this->_memoryOffset + reg), &value, sizeof(UInt32));
+        this->fMMIODescriptor->writeBytes((this->fMemoryOffset + reg), &value, sizeof(UInt32));
     }
     
-    IOSimpleLockUnlock(this->_registerLock);
+    IOSimpleLockUnlock(this->fRegisterLock);
 }
 
 IOAHCIPort *PureAHCIDriver::createPort(UInt32 number) {

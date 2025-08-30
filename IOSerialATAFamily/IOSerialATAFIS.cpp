@@ -28,17 +28,8 @@
  * @LICENSE_HEADER_END@
  */
 
-#ifndef _IOAHCIDEBUG_H_
-#define _IOAHCIDEBUG_H_
+#include <IOKit/sata/IOSerialATAFIS.h>
 
-#include <IOKit/ahci/IOAHCIController.h>
+OSDefineMetaClassAndStructors(IOSerialATAFIS, OSObject);
 
-extern UInt32 gIOAHCIDebugFlags;
 
-enum {
-    kIOAHCIDebugController = (1 << 0),
-    kIOAHCIDebugPort = (1 << 1),
-    kIOAHCIDebugDevice = (1 << 2),
-};
-
-#endif /* _IOAHCIDEBUG_H_ */
