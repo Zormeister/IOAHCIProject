@@ -58,6 +58,9 @@ class PureAHCIDriver : public IOAHCIController {
     
     virtual void writeRegister(UInt32 reg, UInt32 value) override;
     
+    bool filterInterrupt(IOFilterInterruptEventSource *sender);
+    void handleInterrupt(IOInterruptEventSource *sender, int count);
+    
 protected:
     IOMemoryMap *fMMIOMap;
     IOMemoryDescriptor *fMMIODescriptor;
@@ -66,6 +69,7 @@ protected:
     UInt32 fMemoryOffset;
     bool fMemoryInPCIConfig;
     UInt8 fSATACapabilityOffset;
+    IOFilterInterruptEventSource *fIRQEventSource;
 };
 
 #endif /* PureAHCIDriver_h */

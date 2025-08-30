@@ -28,6 +28,7 @@
  * @LICENSE_HEADER_END@
  */
 
+#include <IOKit/IOFilterInterruptEventSource.h>
 #include "PureAHCIDriver.h"
 
 OSDefineMetaClassAndStructors(PureAHCIDriver, IOAHCIController);
@@ -39,6 +40,8 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
     UInt8 capabilityOffset;
     IOAHCIPCICapabilityRegister capabilityReg;
     UInt32 bar = kIOPCIConfigBaseAddress5;
+    int irqType;
+    int irqSrc = 0;
     
     if (super::probe(provider, score) == NULL) {
         return NULL;
@@ -68,6 +71,29 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
         fMMIOMap = fPCIDevice->mapDeviceMemoryWithRegister(bar, kIOMapInhibitCache);
         fMMIODescriptor = fMMIOMap->getMemoryDescriptor();
     }
+    
+    /* Locate the MSI interrupt if it's available */
+    for (int i = 0; ; i++) {
+        if (fPCIDevice->getInterruptType(i, &irqType) == kIOReturnSuccess) {
+            if ((irqType & kIOInterruptTypePCIMessaged) || (irqType & kIOInterruptTypePCIMessagedX)) {
+                irqSrc = i;
+            }
+        } else {
+            break;
+        }
+    }
+    
+    /* Register our IRQ handler. */
+    fIRQEventSource = IOFilterInterruptEventSource::filterInterruptEventSource(this,
+                                                        OSMemberFunctionCast(IOInterruptEventAction,
+                                                                             this,
+                                                                             &PureAHCIDriver::handleInterrupt),
+                                                        OSMemberFunctionCast(IOFilterInterruptAction,
+                                                                             this,
+                                                                             &PureAHCIDriver::filterInterrupt),
+                                                        fPCIDevice,
+                                                        irqSrc);
+    /* If ANYBODY wants to make the above lines cleaner feel free to do so. */
     
     return this;
 }
@@ -125,4 +151,19 @@ IOAHCIPort *PureAHCIDriver::createPort(UInt32 number) {
      */
     
     return NULL;
+}
+
+bool PureAHCIDriver::filterInterrupt(IOFilterInterruptEventSource *sender)
+{
+    if (readRegister(kIOAHCIRegInterruptStatus) == 0) {
+        return false;
+    } else {
+        /* interrupt has fired!!! */
+        return true;
+    }
+}
+
+void PureAHCIDriver::handleInterrupt(IOInterruptEventSource *sender, int count)
+{
+    /* This function should call the IRQ handling function of the port raising the IRQ. */
 }
