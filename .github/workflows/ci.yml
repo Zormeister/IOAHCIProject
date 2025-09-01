@@ -25,6 +25,7 @@ jobs:
           if: success()
           uses: actions/upload-artifact@v4
           with:
+            name: IOAHCIProject
             path: /Users/runner/work/IOAHCIProject/IOAHCIProject/dst/IOAHCIProject.tar.xz
         - name: Build (DEBUG)
           run : |
@@ -40,5 +41,5 @@ jobs:
           if: success()
           uses: actions/upload-artifact@v4
           with:
+            name: IOAHCIProject_debug
             path: /Users/runner/work//IOAHCIProject/IOAHCIProject/dbgdst/IOAHCIProject_debug.tar.xz
-    
