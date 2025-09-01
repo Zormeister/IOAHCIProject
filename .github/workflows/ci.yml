@@ -25,7 +25,7 @@ jobs:
           if: success()
           uses: actions/upload-artifact@v4
           with:
-            path: /Users/runner/work/IOAHCIProject/dst/IOAHCIProject.tar.xz
+            path: /Users/runner/work/IOAHCIProject/IOAHCIProject/dst/IOAHCIProject.tar.xz
         - name: Build (DEBUG)
           run : |
             xcodebuild install -configuration Debug -target IOSerialATAFamily DSTROOT=$PWD/dbgdst
@@ -40,5 +40,5 @@ jobs:
           if: success()
           uses: actions/upload-artifact@v4
           with:
-            path: /Users/runner/work/IOAHCIProject/dbgdst/IOAHCIProject_debug.tar.xz
+            path: /Users/runner/work//IOAHCIProject/IOAHCIProject/dbgdst/IOAHCIProject_debug.tar.xz
     
