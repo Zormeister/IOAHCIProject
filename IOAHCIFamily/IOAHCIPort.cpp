@@ -75,6 +75,8 @@ bool IOAHCIPort::initWithControllerAndPortNumber(IOAHCIController *controller, U
     DBG("Command List address: 0x%llX", fCommandListBuffer->getPhysicalAddress());
     DBG("Incoming FIS address: 0x%llX", fIncomingFISBuffer->getPhysicalAddress());
 
+    /* Now that we've allocated those regions of memory... */
+
     TRACE_END(Init, controller, portNumber, getMetaClass()->getInstanceCount(), 2);
     return true;
 }

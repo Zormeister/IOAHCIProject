@@ -32,6 +32,7 @@
 #define _IOKIT_AHCI_IOAHCICONTROLLER_H_
 
 #include <IOKit/IOService.h>
+#include <IOKit/IOWorkLoop.h>
 #include <IOKit/ahci/IOAHCITypes.h>
 
 class IOAHCIPort;
@@ -74,6 +75,7 @@ protected:
 protected:
     OSArray *fPortArray;
     IOSimpleLock *fRegisterLock;
+    IOWorkLoop *fWorkLoop;
 };
 
 #endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */

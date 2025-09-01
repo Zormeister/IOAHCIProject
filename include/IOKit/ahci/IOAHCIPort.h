@@ -37,16 +37,23 @@
 
 class IOAHCIPort : public IOService {
     OSDeclareAbstractStructors(IOAHCIPort);
-    
+
+public:
     virtual bool initWithControllerAndPortNumber(IOAHCIController *controller, UInt32 portNumber);
 
     virtual IOAHCIRequest *createRequest(void);
+
+    /* Submit request to the IOCommandPool, which will (hopefully) process the next request */
+    virtual IOReturn submitRequest(IOAHCIRequest *request);
     
 protected:
     void initCapabilities(void);
     
     virtual UInt32 readRegister(UInt32 reg);
     virtual void writeRegister(UInt32 reg, UInt32 value);
+
+    virtual void powerUp(void);
+    virtual void powerDown(void);
     
 public:
     UInt32 getPortNumber(void);

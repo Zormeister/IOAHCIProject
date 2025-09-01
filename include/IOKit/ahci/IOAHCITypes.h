@@ -244,4 +244,11 @@ enum {
     kIOAHCIPortIRQStatusDHRS = 0x00000001,
 };
 
+enum {
+    kIOAHCISignatureSATA = 0x00000101,
+    kIOAHCISignatureATAPI = 0xEB140101,
+    kIOAHCISignatureEnclosureManagement = 0xC33C0101,
+    kIOAHCISignaturePortMultiplier = 0x96690101,
+};
+
 #endif /* _IOKIT_AHCI_IOAHCITYPES_H_ */
