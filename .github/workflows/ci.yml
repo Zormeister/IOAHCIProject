@@ -30,8 +30,8 @@ jobs:
         - name: Build (DEBUG)
           run : |
             xcodebuild install -configuration Debug -target IOSerialATAFamily DSTROOT=$PWD/dbgdst
-            xcodebuild install -target IOAHCIFamily DSTROOT=$PWD/dbgdst
-            xcodebuild install -target PureAHCIDriver DSTROOT=$PWD/dbgdst
+            xcodebuild install -configuration Debug -target IOAHCIFamily DSTROOT=$PWD/dbgdst
+            xcodebuild install -configuration Debug -target PureAHCIDriver DSTROOT=$PWD/dbgdst
         - name: Package (DEBUG)
           run : |
             cd dbgdst
