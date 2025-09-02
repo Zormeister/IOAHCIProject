@@ -32,9 +32,17 @@
 #define _IOKIT_AHCI_IOAHCIREQUEST_H_
 
 #include <IOKit/ahci/IOAHCITypes.h>
+#include <IOKit/sata/IOSerialATAFIS.h>
 
 class IOAHCIRequest : public IOCommand {
     OSDeclareDefaultStructors(IOAHCIRequest);
+
+    IOReturn setFIS(IOSerialATAFIS *fis);
+
+protected:
+    IODMACommand *fDMACommand;
+    IOBufferMemoryDescriptor *fBuffer;
+
 };
 
 #endif /* _IOKIT_AHCI_IOAHCIREQUEST_H_ */

@@ -81,6 +81,21 @@ bool IOAHCIPort::initWithControllerAndPortNumber(IOAHCIController *controller, U
     return true;
 }
 
+bool IOAHCIPort::start(IOService *provider)
+{
+    TRACE_BEGIN(Start, fController, fPortNumber, provider, 0);
+
+    if (!super::start(provider)) {
+        DBG("Superclass failed to start!");
+        TRACE_END(Start, controller, portNumber, provider, 0);
+        return false;
+    }
+
+    /* Start operating... */
+    TRACE_END(Start, controller, portNumber, provider, 1);
+    return true;
+}
+
 /* Is there legitimately any way to use AssertMacros without the code looking ugly? */
 void IOAHCIPort::initCapabilities()
 {

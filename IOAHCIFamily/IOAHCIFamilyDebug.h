@@ -65,6 +65,7 @@ enum {
 enum {
     kIOAHCIPortTraceFunctionInit     = 1,
     kIOAHCIPortTraceFunctionInitCaps = 2,
+    kIOAHCIPortTraceFunctionStart = 3,
 };
 
 #define IOAHCITraceCode(class, func) \

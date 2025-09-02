@@ -43,6 +43,8 @@ public:
 
     virtual IOAHCIRequest *createRequest(void);
 
+    virtual bool start(IOService *provider) override;
+
     /* Submit request to the IOCommandPool, which will (hopefully) process the next request */
     virtual IOReturn submitRequest(IOAHCIRequest *request);
     
