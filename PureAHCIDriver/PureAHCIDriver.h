@@ -57,10 +57,7 @@ class PureAHCIDriver : public IOAHCIController {
     virtual UInt32 readRegister(UInt32 reg) override;
     
     virtual void writeRegister(UInt32 reg, UInt32 value) override;
-    
-    bool filterInterrupt(IOFilterInterruptEventSource *sender);
-    void handleInterrupt(IOInterruptEventSource *sender, int count);
-    
+
 protected:
     IOMemoryMap *fMMIOMap;
     IOMemoryDescriptor *fMMIODescriptor;

@@ -31,6 +31,7 @@
 #ifndef _IOKIT_AHCI_IOAHCICONTROLLER_H_
 #define _IOKIT_AHCI_IOAHCICONTROLLER_H_
 
+#include <IOKit/IOFilterInterruptEventSource.h>
 #include <IOKit/IOService.h>
 #include <IOKit/IOWorkLoop.h>
 #include <IOKit/ahci/IOAHCITypes.h>
@@ -72,10 +73,16 @@ protected:
      */
     virtual void reset(void);
 
+public:
+    /* ZORMEISTER: These have to be pubilc or else PureAHCIDriver will not build. */
+    virtual bool filterInterrupt(IOFilterInterruptEventSource *sender);
+    virtual void handleInterrupt(IOInterruptEventSource *sender, int count);
+
 protected:
     OSArray *fPortArray;
     IOSimpleLock *fRegisterLock;
     IOWorkLoop *fWorkLoop;
+    IOFilterInterruptEventSource *fInterrupt;
 };
 
 #endif /* _IOKIT_AHCI_IOAHCICONTROLLER_H_ */

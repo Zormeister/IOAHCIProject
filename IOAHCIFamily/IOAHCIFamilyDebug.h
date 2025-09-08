@@ -141,4 +141,7 @@ enum {
         kprintf("[AHCI][" #class "]: %s: " fmt "\n", __FUNCTION__, ##args); \
     } \
 
+#define IOAHCILog(class, fmt, args...) \
+        kprintf("[AHCI][" #class "]: %s: " fmt "\n", __FUNCTION__, ##args); \
+
 #endif /* _IOAHCIDEBUG_H_ */

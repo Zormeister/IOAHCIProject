@@ -54,8 +54,8 @@ protected:
     virtual UInt32 readRegister(UInt32 reg);
     virtual void writeRegister(UInt32 reg, UInt32 value);
 
-    virtual void powerUp(void);
-    virtual void powerDown(void);
+    virtual void startEngine(void);
+    virtual void stopEngine(void);
     
 public:
     UInt32 getPortNumber(void);
@@ -72,6 +72,8 @@ protected:
     IOBufferMemoryDescriptor *fIncomingFISBuffer;
     mach_vm_address_t fCommandListAddrMask;
     mach_vm_address_t fCommandTableAddrMask;
+    IODMACommand *fCommandListDMACommand;
+    IODMACommand *fIncomingFISDMACommand;
 };
 
 #endif /* _IOKIT_AHCI_IOAHCIPORT_H_ */

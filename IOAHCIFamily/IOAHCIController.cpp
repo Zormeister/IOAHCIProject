@@ -34,6 +34,7 @@
 #define TRACE_BEGIN(func, a, b, c, d) IOAHCITraceBegin(Controller, func, a, b, c, d)
 #define TRACE_END(func, a, b, c, d) IOAHCITraceEnd(Controller, func, a, b, c, d)
 #define DBG(fmt, args...) IOAHCIDebugLog(Controller, fmt, ##args)
+#define LOG(fmt, args...) IOAHCILog(Controller, fmt, ##args)
 
 OSDefineMetaClassAndAbstractStructors(IOAHCIController, IOService);
 
@@ -51,19 +52,19 @@ bool IOAHCIController::start(IOService *provider)
         return false;
     }
 
-    this->fRegisterLock = IOSimpleLockAlloc();
+    fRegisterLock = IOSimpleLockAlloc();
 
-    cntl = this->readRegister(kIOAHCIRegHostControl);
+    cntl = readRegister(kIOAHCIRegHostControl);
 
     if (!(cntl & kIOAHCIHostControlAHCIEnable)) {
         DBG("Enabling AHCI mode!");
 
         cntl |= kIOAHCIHostControlAHCIEnable;
 
-        this->writeRegister(kIOAHCIRegHostControl, cntl);
+        writeRegister(kIOAHCIRegHostControl, cntl);
     }
 
-    caps = this->readRegister(kIOAHCIRegHostCapabilities);
+    caps = readRegister(kIOAHCIRegHostCapabilities);
 
     /* for debugging purposes */
     DBG("AHCI Capabilities:");
@@ -93,4 +94,43 @@ bool IOAHCIController::start(IOService *provider)
 
     TRACE_END(Start, provider, this->getMetaClass()->getInstanceCount(), 0, 0);
     return true;
+}
+
+//
+// This performs a HBA reset, as per section 10.4.3 of the AHCI specification.
+//
+void IOAHCIController::reset()
+{
+    /* The AHCI spec specifies that a single second is the maximum limit before we declare the HBA hung. */
+    int timeout = 1000;
+    
+    UInt32 ghc = readRegister(kIOAHCIRegHostControl);
+    ghc |= kIOAHCIHostControlHBAReset;
+    writeRegister(kIOAHCIRegHostControl, ghc);
+
+    while ((readRegister(kIOAHCIRegHostControl) & kIOAHCIHostControlHBAReset)) {
+        if (timeout == 0) {
+            panic("HBA is hung and we don't know how to recover.\n");
+        }
+        IOSleep(1);
+        timeout--;
+    }
+
+    /* Hopefully should message the IOAHCIPort classes? */
+    messageClients(kIOAHCIMessageHBAHasBeenReset);
+}
+
+bool IOAHCIController::filterInterrupt(IOFilterInterruptEventSource *sender)
+{
+    if (readRegister(kIOAHCIRegInterruptStatus) == 0) {
+        return false;
+    } else {
+        /* interrupt has fired!!! */
+        return true;
+    }
+}
+
+void IOAHCIController::handleInterrupt(IOInterruptEventSource *sender, int count)
+{
+    /* This function should call the IRQ handling function of the port raising the IRQ. */
 }

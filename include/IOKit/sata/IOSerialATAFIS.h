@@ -40,6 +40,7 @@ class IOSerialATAFIS : public OSObject {
     
 public:
     static IOSerialATAFIS *createWithType(UInt32 type);
+    static IOSerialATAFIS *createWithData(const OSData *data);
 
     /* Setters and Getters */
 

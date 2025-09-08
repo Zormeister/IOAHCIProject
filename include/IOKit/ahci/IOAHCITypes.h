@@ -38,8 +38,19 @@
 #define sub_iokit_ahci err_sub(12)
 #endif
 
+/* #define iokit_family_msg(sub, message)      (UInt32)(sys_iokit|sub|message) */
+#define ioahci_family_msg(msg) iokit_family_msg(sub_iokit_ahci, msg)
+
 extern const OSSymbol *gIOAHCIPortTypeKey;
 extern const OSSymbol *gIOAHCIHostCapabilitiesKey;
+
+/*!
+ * @const kIOAHCIMessageHBAHasBeenReset
+ * Indicates that the HBA has, infact, been reset.
+ *
+ * This should be used by IOAHCIPort to reset itself and re-initialize after the HBA has been reset.
+ */
+#define kIOAHCIMessageHBAHasBeenReset ioahci_family_msg(0x1)
 
 /*!
  * @const kIOAHCIMaximumPorts

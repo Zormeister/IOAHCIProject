@@ -32,6 +32,7 @@
 #include "IOAHCIFamilyDebug.h"
 #include <IOKit/ahci/IOAHCIPort.h>
 #include <IOKit/IOBufferMemoryDescriptor.h>
+#include <IOKit/IODMACommand.h>
 
 #define TRACE_BEGIN(func, a, b, c, d) IOAHCITraceBegin(Port, func, a, b, c, d)
 #define TRACE_END(func, a, b, c, d) IOAHCITraceEnd(Port, func, a, b, c, d)
@@ -76,6 +77,7 @@ bool IOAHCIPort::initWithControllerAndPortNumber(IOAHCIController *controller, U
     DBG("Incoming FIS address: 0x%llX", fIncomingFISBuffer->getPhysicalAddress());
 
     /* Now that we've allocated those regions of memory... */
+    IODMACommand::withSpecification(kIODMACommandOutputLittle64, 32, 0);
 
     TRACE_END(Init, controller, portNumber, getMetaClass()->getInstanceCount(), 2);
     return true;
@@ -87,12 +89,12 @@ bool IOAHCIPort::start(IOService *provider)
 
     if (!super::start(provider)) {
         DBG("Superclass failed to start!");
-        TRACE_END(Start, controller, portNumber, provider, 0);
+        TRACE_END(Start, fController, fPortNumber, provider, 0);
         return false;
     }
 
     /* Start operating... */
-    TRACE_END(Start, controller, portNumber, provider, 1);
+    TRACE_END(Start, fController, fPortNumber, provider, 1);
     return true;
 }
 

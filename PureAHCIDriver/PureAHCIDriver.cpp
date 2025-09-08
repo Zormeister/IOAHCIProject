@@ -87,10 +87,10 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
     fIRQEventSource = IOFilterInterruptEventSource::filterInterruptEventSource(this,
                                                         OSMemberFunctionCast(IOInterruptEventAction,
                                                                              this,
-                                                                             &PureAHCIDriver::handleInterrupt),
+                                                                             &super::handleInterrupt),
                                                         OSMemberFunctionCast(IOFilterInterruptAction,
                                                                              this,
-                                                                             &PureAHCIDriver::filterInterrupt),
+                                                                             &super::filterInterrupt),
                                                         fPCIDevice,
                                                         irqSrc);
     /* If ANYBODY wants to make the above lines cleaner feel free to do so. */
@@ -151,19 +151,4 @@ IOAHCIPort *PureAHCIDriver::createPort(UInt32 number) {
      */
     
     return NULL;
-}
-
-bool PureAHCIDriver::filterInterrupt(IOFilterInterruptEventSource *sender)
-{
-    if (readRegister(kIOAHCIRegInterruptStatus) == 0) {
-        return false;
-    } else {
-        /* interrupt has fired!!! */
-        return true;
-    }
-}
-
-void PureAHCIDriver::handleInterrupt(IOInterruptEventSource *sender, int count)
-{
-    /* This function should call the IRQ handling function of the port raising the IRQ. */
 }
