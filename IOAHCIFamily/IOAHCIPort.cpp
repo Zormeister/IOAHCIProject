@@ -59,7 +59,7 @@ bool IOAHCIPort::initWithControllerAndPortNumber(IOAHCIController *controller, U
     }
     
     DBG("Port %d is now initialising.", portNumber);
-    
+
     fController = controller;
     fPortNumber = portNumber;
 
@@ -77,7 +77,8 @@ bool IOAHCIPort::initWithControllerAndPortNumber(IOAHCIController *controller, U
     DBG("Incoming FIS address: 0x%llX", fIncomingFISBuffer->getPhysicalAddress());
 
     /* Now that we've allocated those regions of memory... */
-    IODMACommand::withSpecification(kIODMACommandOutputLittle64, 32, 0);
+    fCommandListDMACommand = IODMACommand::withSpecification(kIODMACommandOutputLittle64, 32, 1024);
+    fIncomingFISDMACommand = IODMACommand::withSpecification(kIODMACommandOutputLittle64, 32, 256);
 
     TRACE_END(Init, controller, portNumber, getMetaClass()->getInstanceCount(), 2);
     return true;

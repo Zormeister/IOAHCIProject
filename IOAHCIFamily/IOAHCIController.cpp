@@ -30,6 +30,7 @@
 
 #include "IOAHCIFamilyDebug.h"
 #include <IOKit/ahci/IOAHCIController.h>
+#include <IOKit/ahci/IOAHCIPort.h>
 
 #define TRACE_BEGIN(func, a, b, c, d) IOAHCITraceBegin(Controller, func, a, b, c, d)
 #define TRACE_END(func, a, b, c, d) IOAHCITraceEnd(Controller, func, a, b, c, d)
@@ -53,6 +54,7 @@ bool IOAHCIController::start(IOService *provider)
     }
 
     fRegisterLock = IOSimpleLockAlloc();
+    fPortArray = OSArray::withCapacity(kIOAHCIMaximumPorts);
 
     cntl = readRegister(kIOAHCIRegHostControl);
 
@@ -81,7 +83,6 @@ bool IOAHCIController::start(IOService *provider)
     OSSafeReleaseNULL(number);
 
     /* Enumerate the available ports here */
-#if 0
     UInt32 ports = this->readRegister(kIOAHCIRegPortsImplemented);
     for (int i = 0; i < kIOAHCIMaximumPorts; i++) {
         if ((ports >> i) & 0x1) {
@@ -89,7 +90,6 @@ bool IOAHCIController::start(IOService *provider)
             auto port = this->createPort(i);
         }
     }
-#endif
     /* ^ disabled the above for now - until Port infrastructure is developed. */
 
     TRACE_END(Start, provider, this->getMetaClass()->getInstanceCount(), 0, 0);
@@ -125,12 +125,22 @@ bool IOAHCIController::filterInterrupt(IOFilterInterruptEventSource *sender)
     if (readRegister(kIOAHCIRegInterruptStatus) == 0) {
         return false;
     } else {
-        /* interrupt has fired!!! */
         return true;
     }
 }
 
 void IOAHCIController::handleInterrupt(IOInterruptEventSource *sender, int count)
 {
-    /* This function should call the IRQ handling function of the port raising the IRQ. */
+    UInt32 irq = readRegister(kIOAHCIRegInterruptStatus);
+    UInt32 portNum = 0;
+    while (portNum < fPortArray->getCount()) {
+        /*
+         * This assumes that we've already initialised ourself; which should be the case if we're dispatching IRQs.
+         */
+        if ((irq =>> 1) & 0x1) {
+            IOAHCIPort *port = OSDynamicCast(IOAHCIPort, fPortArray->getObject(portNum));
+            port->handleInterrupt();
+        }
+        portNum++;
+    }
 }

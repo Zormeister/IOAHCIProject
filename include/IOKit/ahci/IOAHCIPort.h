@@ -59,6 +59,8 @@ protected:
     
 public:
     UInt32 getPortNumber(void);
+    
+    virtual IOReturn handleInterrupt(void);
 
 
 protected:

@@ -75,7 +75,7 @@ IOService *PureAHCIDriver::probe(IOService *provider, SInt32 *score)
     /* Locate the MSI interrupt if it's available */
     for (int i = 0; ; i++) {
         if (fPCIDevice->getInterruptType(i, &irqType) == kIOReturnSuccess) {
-            if ((irqType & kIOInterruptTypePCIMessaged) || (irqType & kIOInterruptTypePCIMessagedX)) {
+            if ((irqType == kIOInterruptTypePCIMessaged) || (irqType == kIOInterruptTypePCIMessagedX)) {
                 irqSrc = i;
             }
         } else {

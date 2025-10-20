@@ -48,7 +48,8 @@ public:
     virtual UInt32 getCommand(void);
 
 private:
-    UInt32 _type;
+    UInt32 fType;
+    
 };
 
 #endif /* _IOKIT_SATA_IOSERIALATAFIS_H_ */
